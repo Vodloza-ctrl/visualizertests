@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>kwaBulawayo — culture-led city guide and store</title>
+  <link rel="icon" type="image/png" href="icon-purple.png" />
+  <style>
+    :root{
+      --bg:#06030d;
+      --bg2:#0b0614;
+      --panel:#120b1d;
+      --panel-2:#171125;
+      --soft:#211635;
+      --line:rgba(255,255,255,.08);
+      --line-strong:rgba(255,255,255,.14);
+      --text:#f6effd;
+      --muted:#bdaed2;
+      --accent:#b65ece;
+      --accent-2:#eb83ff;
+      --green:#25D366;
+      --warning:#f7cb6a;
+      --shadow:0 22px 55px rgba(0,0,0,.38);
+      --radius:26px;
+      --max:1240px;
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+      color:var(--text);
+      background:
+        radial-gradient(circle at 10% 0%, rgba(182,94,206,.18), transparent 28%),
+        radial-gradient(circle at 88% 8%, rgba(235,131,255,.12), transparent 20%),
+        linear-gradient(180deg, var(--bg), var(--bg2));
+      line-height:1.55;
+    }
+    img{display:block;max-width:100%}
+    a{text-decoration:none;color:inherit}
+    .container{width:min(var(--max), calc(100% - 40px)); margin:0 auto}
+    .site-header{
+      position:sticky; top:0; z-index:100;
+      border-bottom:1px solid var(--line);
+      backdrop-filter:blur(16px);
+      background:rgba(6,3,13,.72);
+    }
+    .nav{
+      display:flex; align-items:center; justify-content:space-between; gap:16px; padding:18px 0;
+    }
+    .brand{display:flex; align-items:center; gap:14px; min-width:0}
+    .brand img{height:32px; width:auto}
+    .brand-mark{width:36px; height:36px; border-radius:14px; background:linear-gradient(135deg, rgba(182,94,206,.2), rgba(235,131,255,.08)); display:grid; place-items:center; border:1px solid var(--line)}
+    .brand small{display:block; color:var(--muted); font-size:12px; letter-spacing:.08em; text-transform:uppercase}
+    .nav-links{display:flex; align-items:center; gap:24px}
+    .nav-links a{color:var(--muted); font-size:15px}
+    .nav-links a:hover,.nav-links a.active{color:#fff}
+    .nav-actions{display:flex; align-items:center; gap:12px}
+    .btn,.icon-btn,.chip,.tab{
+      border:1px solid transparent; transition:.22s ease; display:inline-flex; align-items:center; justify-content:center; gap:10px;
+    }
+    .btn{padding:14px 22px; border-radius:999px; font-weight:800; letter-spacing:-.01em; cursor:pointer}
+    .btn:hover,.icon-btn:hover,.tab:hover{transform:translateY(-1px)}
+    .btn-primary{background:linear-gradient(135deg, var(--accent), var(--accent-2)); box-shadow:0 12px 28px rgba(182,94,206,.26)}
+    .btn-ghost{background:rgba(255,255,255,.03); border-color:var(--line); color:#fff}
+    .btn-whatsapp{background:var(--green); color:#08170d; font-weight:900}
+    .icon-btn{width:46px; height:46px; border-radius:999px; background:rgba(255,255,255,.03); border-color:var(--line); cursor:pointer}
+    .menu-btn{display:none}
+
+    .hero{padding:52px 0 40px}
+    .hero-grid{display:grid; grid-template-columns:1.08fr .92fr; gap:28px; align-items:stretch}
+    .hero-copy,.hero-visual,.glass-card,.editorial-card,.listing-card,.shop-card,.story-card,.stay-card,.feature-card,.search-shell,.cart-drawer,.footer-cta,.culture-panel{
+      border:1px solid var(--line);
+      border-radius:var(--radius);
+      background:linear-gradient(180deg, rgba(255,255,255,.045), rgba(255,255,255,.018));
+      box-shadow:var(--shadow);
+      overflow:hidden;
+    }
+    .hero-copy{padding:38px; position:relative; display:flex; flex-direction:column; justify-content:space-between; min-height:640px}
+    .hero-copy::before{
+      content:""; position:absolute; inset:auto -80px -120px auto; width:260px; height:260px;
+      background:radial-gradient(circle, rgba(182,94,206,.24), transparent 68%); pointer-events:none;
+    }
+    .eyebrow{display:inline-flex; padding:8px 12px; border-radius:999px; font-size:12px; letter-spacing:.12em; text-transform:uppercase; color:#e5c8f0; background:rgba(182,94,206,.11); border:1px solid rgba(255,255,255,.08); font-weight:800}
+    h1{font-size:clamp(44px, 7vw, 82px); line-height:.93; letter-spacing:-.05em; margin:18px 0 16px; max-width:12ch}
+    .hero-copy p{font-size:18px; color:var(--muted); max-width:58ch; margin:0}
+    .hero-actions{display:flex; gap:14px; flex-wrap:wrap; margin:28px 0 26px}
+    .stat-row{display:grid; grid-template-columns:repeat(4, minmax(0,1fr)); gap:12px; margin-top:10px}
+    .stat{padding:16px; border-radius:20px; background:rgba(255,255,255,.03); border:1px solid var(--line)}
+    .stat strong{display:block; font-size:24px; line-height:1; margin-bottom:6px}
+    .stat span{display:block; font-size:13px; color:var(--muted)}
+
+    .hero-visual{display:grid; grid-template-columns:1fr 1fr; gap:14px; padding:14px; min-height:640px; background:
+      radial-gradient(circle at top left, rgba(182,94,206,.2), transparent 35%),
+      linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.015));
+    }
+    .visual-main,.visual-side,.visual-mini{position:relative; overflow:hidden; border-radius:24px; border:1px solid var(--line)}
+    .visual-main{grid-row:span 2; min-height:100%}
+    .visual-main img,.visual-side img,.visual-mini img{width:100%; height:100%; object-fit:cover}
+    .visual-mini{min-height:180px}
+    .visual-overlay{
+      position:absolute; inset:auto 0 0 0; padding:20px; background:linear-gradient(180deg, rgba(0,0,0,0), rgba(6,3,13,.92));
+    }
+    .visual-tag{display:inline-flex; font-size:11px; font-weight:800; letter-spacing:.1em; text-transform:uppercase; padding:7px 10px; border-radius:999px; background:rgba(255,255,255,.12); backdrop-filter:blur(8px)}
+    .visual-title{font-size:22px; margin:10px 0 6px; font-weight:900; letter-spacing:-.02em}
+    .visual-sub{font-size:14px; color:#dfd3ec}
+
+    .section{padding:30px 0}
+    .section-head{display:flex; justify-content:space-between; gap:20px; align-items:end; margin-bottom:20px}
+    .section-title{font-size:clamp(28px, 4vw, 46px); line-height:1; letter-spacing:-.04em; margin:0}
+    .section-head p{max-width:740px; color:var(--muted); margin:0}
+    .link-arrow{color:#fff; font-weight:700; white-space:nowrap}
+
+    .search-shell{padding:18px; background:linear-gradient(180deg, rgba(182,94,206,.08), rgba(255,255,255,.02));}
+    .search-grid{display:grid; grid-template-columns:2fr 1fr 1fr auto; gap:12px}
+    .field, select{
+      width:100%; padding:16px 16px; border-radius:18px; border:1px solid var(--line); background:rgba(6,3,13,.62); color:#fff; font:inherit;
+    }
+
+    .product-grid{display:grid; grid-template-columns:1.1fr .95fr .95fr; gap:18px}
+    .shop-card{display:flex; flex-direction:column}
+    .shop-card.featured{grid-row:span 2}
+    .card-media{position:relative; aspect-ratio:1.05; background:#0b0712}
+    .card-media img{width:100%; height:100%; object-fit:cover}
+    .badge{position:absolute; top:16px; left:16px; padding:8px 11px; font-size:11px; letter-spacing:.08em; text-transform:uppercase; font-weight:800; border-radius:999px; background:rgba(7,3,13,.72); border:1px solid rgba(255,255,255,.12)}
+    .card-body{padding:18px}
+    .card-top{display:flex; align-items:start; justify-content:space-between; gap:12px; margin-bottom:12px}
+    h3{margin:0; font-size:24px; letter-spacing:-.03em; line-height:1.04}
+    .price{font-size:22px; font-weight:900; white-space:nowrap}
+    .muted{color:var(--muted)}
+    .meta-row{display:flex; gap:8px; flex-wrap:wrap; margin:14px 0}
+    .chip{padding:8px 11px; border-radius:999px; background:rgba(182,94,206,.12); border-color:rgba(255,255,255,.08); color:#f2d8fa; font-size:12px; font-weight:800; text-transform:uppercase; letter-spacing:.06em}
+    .card-actions{display:flex; gap:10px; flex-wrap:wrap; margin-top:auto}
+
+    .culture-grid{display:grid; grid-template-columns:1.06fr .94fr; gap:18px}
+    .culture-panel{padding:28px; min-height:100%}
+    .culture-panel h3{font-size:34px; margin-bottom:14px}
+    .editorial-list{display:grid; gap:14px; margin-top:18px}
+    .editorial-item{display:grid; grid-template-columns:94px 1fr; gap:14px; align-items:center; padding:12px; border-radius:20px; background:rgba(255,255,255,.03); border:1px solid var(--line)}
+    .editorial-item img{width:100%; height:94px; border-radius:14px; object-fit:cover}
+    .editorial-item strong{display:block; font-size:18px; line-height:1.12; margin-bottom:6px}
+    .editorial-item span{display:block; color:var(--muted); font-size:14px}
+
+    .listing-grid{display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:18px}
+    .listing-card,.stay-card,.story-card{display:flex; flex-direction:column}
+    .listing-card img,.stay-card img,.story-card img{width:100%; aspect-ratio:1.18; object-fit:cover}
+    .pill-row{display:flex; justify-content:space-between; gap:12px; align-items:center; margin-bottom:12px}
+    .pill{padding:7px 10px; border-radius:999px; font-size:11px; text-transform:uppercase; letter-spacing:.08em; font-weight:800; background:rgba(182,94,206,.12); color:#f1d4fb}
+    .rating{font-weight:800; color:#ffe6a6; font-size:14px}
+    .listing-actions{display:flex; gap:10px; flex-wrap:wrap; margin-top:14px}
+    .mini-btn{padding:11px 14px; border-radius:14px; border:1px solid var(--line); background:rgba(255,255,255,.035); color:#fff; font-weight:700; cursor:pointer}
+
+    .tab-row{display:flex; gap:10px; flex-wrap:wrap; margin-bottom:18px}
+    .tab{padding:10px 14px; border-radius:999px; background:rgba(255,255,255,.035); border-color:var(--line); color:#fff; cursor:pointer; font-weight:800}
+    .tab.active{background:linear-gradient(135deg, rgba(182,94,206,.22), rgba(235,131,255,.18)); border-color:rgba(255,255,255,.12)}
+
+    .stories-grid{display:grid; grid-template-columns:1fr 1fr 1fr; gap:18px}
+    .story-card .card-body{padding:16px}
+    .story-meta{font-size:12px; letter-spacing:.09em; text-transform:uppercase; color:#e2c3f0; font-weight:800; margin-bottom:10px}
+
+    .footer-cta{padding:26px; display:grid; grid-template-columns:1.08fr .92fr; gap:18px; align-items:center; background:
+      radial-gradient(circle at 100% 0%, rgba(235,131,255,.18), transparent 26%),
+      linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
+    }
+    .footer-cta h2{margin:0 0 12px; font-size:clamp(30px, 4vw, 52px); line-height:.96; letter-spacing:-.04em}
+    .footer-cta p{margin:0; color:var(--muted); max-width:58ch}
+    .footer-box{padding:18px; border-radius:24px; border:1px solid var(--line); background:rgba(255,255,255,.03)}
+    .footer-box strong{display:block; font-size:18px; margin-bottom:6px}
+    .site-footer{padding:28px 0 56px}
+    .footer-bottom{display:flex; justify-content:space-between; gap:20px; align-items:center; color:var(--muted); font-size:14px; padding-top:18px}
+
+    .cart-drawer{
+      position:fixed; top:18px; right:18px; width:min(390px, calc(100vw - 24px)); max-height:calc(100vh - 36px);
+      z-index:120; display:none; flex-direction:column; background:rgba(10,6,17,.97); backdrop-filter:blur(18px);
+    }
+    .cart-drawer.open{display:flex}
+    .cart-head,.cart-foot{padding:18px; border-bottom:1px solid var(--line)}
+    .cart-foot{border-top:1px solid var(--line); border-bottom:0; margin-top:auto}
+    .cart-items{padding:12px 18px; overflow:auto; display:grid; gap:12px}
+    .cart-item{padding:12px; border:1px solid var(--line); border-radius:18px; background:rgba(255,255,255,.025)}
+    .cart-item strong{display:block; margin-bottom:5px}
+    .cart-empty{color:var(--muted); text-align:center; padding:36px 12px}
+    .close-cart{margin-left:auto}
+    .wa-float{position:fixed; right:18px; bottom:18px; z-index:90}
+    .small{font-size:13px}
+
+    .hidden{display:none !important}
+    [data-category]{transition:.2s ease}
+
+    @media (max-width:1100px){
+      .hero-grid,.culture-grid,.footer-cta,.product-grid{grid-template-columns:1fr}
+      .hero-copy,.hero-visual{min-height:unset}
+      .listing-grid,.stories-grid{grid-template-columns:1fr 1fr}
+      .stat-row{grid-template-columns:1fr 1fr}
+      .shop-card.featured{grid-row:auto}
+    }
+    @media (max-width:760px){
+      .container{width:min(var(--max), calc(100% - 24px))}
+      .menu-btn{display:inline-flex}
+      .nav-links{
+        display:none; position:absolute; top:76px; left:12px; right:12px; padding:16px; border-radius:22px; flex-direction:column; align-items:flex-start;
+        background:rgba(10,6,17,.98); border:1px solid var(--line); box-shadow:var(--shadow)
+      }
+      .nav-links.open{display:flex}
+      .nav-actions .btn-primary{display:none}
+      h1{max-width:unset}
+      .search-grid,.listing-grid,.stories-grid,.footer-bottom,.footer-cta{grid-template-columns:1fr; display:grid}
+      .hero-copy{padding:24px}
+      .hero-visual{padding:10px; grid-template-columns:1fr}
+      .visual-main{grid-row:auto; min-height:300px}
+      .visual-side,.visual-mini{min-height:220px}
+      .brand img{height:26px}
+      .section{padding:24px 0}
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container nav">
+      <a class="brand" href="#top" aria-label="kwaBulawayo home">
+        <span class="brand-mark"><img src="icon-white.png" alt="kwaBulawayo icon" style="width:20px;height:20px;object-fit:contain"></span>
+        <span>
+          <img src="logo-white.png" alt="kwaBulawayo logo" />
+          <small>Bulawayo culture • city guide • store</small>
+        </span>
+      </a>
+      <nav class="nav-links" id="mobileNav">
+        <a class="active" href="#shop">Store</a>
+        <a href="#guide">Food & Drinks</a>
+        <a href="#stays">Stays</a>
+        <a href="#culture">Culture</a>
+        <a href="#stories">Stories</a>
+      </nav>
+      <div class="nav-actions">
+        <button class="icon-btn" id="cartToggle" aria-label="Open cart">🛒</button>
+        <a class="btn btn-primary" href="#shop">Shop now</a>
+        <button class="icon-btn menu-btn" id="menuBtn" aria-label="Open menu">☰</button>
+      </div>
+    </div>
+  </header>
+
+  <aside class="cart-drawer" id="cartDrawer" aria-live="polite">
+    <div class="cart-head" style="display:flex; align-items:center; gap:12px;">
+      <div>
+        <strong style="font-size:20px; display:block;">kwaBulawayo cart</strong>
+        <span class="small muted">Prototype cart for review</span>
+      </div>
+      <button class="icon-btn close-cart" id="closeCart">✕</button>
+    </div>
+    <div class="cart-items" id="cartItems">
+      <div class="cart-empty">Your cart is empty. Add a mug or coffee pack to test the flow.</div>
+    </div>
+    <div class="cart-foot">
+      <div style="display:flex; justify-content:space-between; gap:12px; margin-bottom:14px; font-weight:900;">
+        <span>Total</span>
+        <span id="cartTotal">$0</span>
+      </div>
+      <div style="display:flex; gap:10px; flex-wrap:wrap;">
+        <button class="btn btn-ghost" id="clearCart">Clear</button>
+        <a class="btn btn-whatsapp" id="whatsAppCheckout" href="https://wa.me/263000000000" target="_blank" rel="noopener">Checkout on WhatsApp</a>
+      </div>
+    </div>
+  </aside>
+
+  <main id="top">
+    <section class="hero">
+      <div class="container hero-grid">
+        <div class="hero-copy">
+          <div>
+            <span class="eyebrow">City guide energy. Product-led conversion.</span>
+            <h1>Bulawayo love, culture, coffee and discovery — in one premium home.</h1>
+            <p>
+              This homepage concept keeps kwaBulawayo’s edge as a curated city guide while pushing your strongest money move up front: coffee drip bags, mugs, giftable bundles, and a clear path to cart or WhatsApp.
+            </p>
+            <div class="hero-actions">
+              <a class="btn btn-primary" href="#shop">Shop the experience</a>
+              <a class="btn btn-whatsapp" href="https://wa.me/263000000000?text=Hi%20kwaBulawayo%2C%20I%20want%20to%20order%20coffee%20or%20a%20mug." target="_blank" rel="noopener">Order on WhatsApp</a>
+              <a class="btn btn-ghost" href="#guide">Explore the guide</a>
+            </div>
+          </div>
+          <div class="stat-row">
+            <div class="stat"><strong>Shop first</strong><span>Hero product CTA above the fold</span></div>
+            <div class="stat"><strong>Curated guide</strong><span>Food, drinks and stays stay visible</span></div>
+            <div class="stat"><strong>Culture-led</strong><span>Stories and media remain part of the brand</span></div>
+            <div class="stat"><strong>Future-ready</strong><span>Cart, events and other products can grow in</span></div>
+          </div>
+        </div>
+        <div class="hero-visual">
+          <div class="visual-main">
+            <img src="stall-brand.png" alt="kwaBulawayo stall and packaging aesthetic" />
+            <div class="visual-overlay">
+              <span class="visual-tag">Brand world</span>
+              <div class="visual-title">Marketplace warmth, gallery finish, Bulawayo soul</div>
+              <div class="visual-sub">Coffee, gifts, craft, culture and event-readiness in one visual system.</div>
+            </div>
+          </div>
+          <div class="visual-side">
+            <img src="coffee-page.png" alt="kwaBulawayo coffee product concept" />
+            <div class="visual-overlay">
+              <span class="visual-tag">Store</span>
+              <div class="visual-title">Premium coffee gifting</div>
+              <div class="visual-sub">Drip bags, mugs and bundles designed to convert fast.</div>
+            </div>
+          </div>
+          <div class="visual-mini">
+            <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=1200&q=80" alt="Restaurant dining aesthetic" />
+            <div class="visual-overlay">
+              <span class="visual-tag">Guide</span>
+              <div class="visual-title">Curated food and stay picks</div>
+              <div class="visual-sub">Editorial, not directory chaos.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="shop">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">Store first, brand intact</p>
+            <h2 class="section-title">Featured products and giftable bundles</h2>
+          </div>
+          <p>These products sit high on the homepage so revenue is visible immediately, while the city guide and cultural sections continue underneath as the long-term moat.</p>
+        </div>
+        <div class="product-grid">
+          <article class="shop-card featured">
+            <div class="card-media">
+              <img src="coffee-page.png" alt="kwaBulawayo coffee drip bag product presentation" />
+              <span class="badge">Hero product</span>
+            </div>
+            <div class="card-body" style="display:flex; flex-direction:column; gap:8px; height:100%;">
+              <div class="card-top">
+                <div>
+                  <h3>kwaBulawayo Gift Set</h3>
+                  <div class="muted">Mug + coffee drip bags + premium wrap</div>
+                </div>
+                <div class="price">$22</div>
+              </div>
+              <p class="muted">The main conversion product. Built for gifting, travel, desk rituals and premium city-brand presentation.</p>
+              <div class="meta-row">
+                <span class="chip">Giftable</span>
+                <span class="chip">High margin</span>
+                <span class="chip">WhatsApp ready</span>
+              </div>
+              <div class="card-actions">
+                <button class="btn btn-primary add-to-cart" data-name="kwaBulawayo Gift Set" data-price="22">Add to cart</button>
+                <a class="btn btn-whatsapp" target="_blank" rel="noopener" href="https://wa.me/263000000000?text=Hi%20kwaBulawayo%2C%20I%20want%20the%20Gift%20Set.">WhatsApp</a>
+              </div>
+            </div>
+          </article>
+
+          <article class="shop-card">
+            <div class="card-media">
+              <img src="https://images.unsplash.com/photo-1509042239860-f550ce710b93?auto=format&fit=crop&w=1200&q=80" alt="Coffee and mug aesthetic" />
+              <span class="badge">Core SKU</span>
+            </div>
+            <div class="card-body">
+              <div class="card-top">
+                <div>
+                  <h3>Coffee Drip Bags</h3>
+                  <div class="muted">Starter packs, everyday packs, travel-ready</div>
+                </div>
+                <div class="price">$6+</div>
+              </div>
+              <div class="meta-row">
+                <span class="chip">No machine</span>
+                <span class="chip">Portable</span>
+              </div>
+              <div class="card-actions">
+                <button class="btn btn-primary add-to-cart" data-name="Coffee Drip Bags" data-price="6">Add to cart</button>
+                <button class="btn btn-ghost">View details</button>
+              </div>
+            </div>
+          </article>
+
+          <article class="shop-card">
+            <div class="card-media">
+              <img src="https://images.unsplash.com/photo-1514228742587-6b1558fcca3d?auto=format&fit=crop&w=1200&q=80" alt="Coffee mug product" />
+              <span class="badge">Merch</span>
+            </div>
+            <div class="card-body">
+              <div class="card-top">
+                <div>
+                  <h3>kwaBulawayo Mug</h3>
+                  <div class="muted">The cultural souvenir meets everyday use</div>
+                </div>
+                <div class="price">$12</div>
+              </div>
+              <div class="meta-row">
+                <span class="chip">Giftable</span>
+                <span class="chip">Collectible</span>
+              </div>
+              <div class="card-actions">
+                <button class="btn btn-primary add-to-cart" data-name="kwaBulawayo Mug" data-price="12">Add to cart</button>
+                <button class="btn btn-ghost">Customise later</button>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="guide">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">Guide layer</p>
+            <h2 class="section-title">Search Bulawayo with a curated, editorial feel</h2>
+          </div>
+          <p>Keep the city-guide edge, but present it with curation, restraint and visual confidence so it supports the store instead of competing with it.</p>
+        </div>
+        <div class="search-shell">
+          <div class="search-grid">
+            <input class="field" id="searchInput" type="text" placeholder="Search cafés, grills, guesthouses, rooftops…" />
+            <select id="categoryFilter">
+              <option value="all">All categories</option>
+              <option value="food">Food</option>
+              <option value="drink">Drink</option>
+              <option value="stay">Stays</option>
+            </select>
+            <select>
+              <option>All areas</option>
+              <option>CBD</option>
+              <option>Suburbs</option>
+              <option>Matsheumhlope</option>
+            </select>
+            <button class="btn btn-primary">Search</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container culture-grid">
+        <div class="culture-panel" id="culture">
+          <p class="eyebrow">Why keep culture visible</p>
+          <h3>Bulawayo love is the moat.</h3>
+          <p class="muted">This is where kwaBulawayo separates from generic coffee brands and generic directories. The homepage should still feel proudly local, media-aware and emotionally rooted in the city.</p>
+          <div class="editorial-list">
+            <article class="editorial-item">
+              <img src="https://images.unsplash.com/photo-1521017432531-fbd92d768814?auto=format&fit=crop&w=600&q=80" alt="Cafe story" />
+              <div>
+                <strong>Best cafés for a slow Saturday in Bulawayo</strong>
+                <span>Use culture and editorial taste to pull users deeper into the ecosystem.</span>
+              </div>
+            </article>
+            <article class="editorial-item">
+              <img src="https://images.unsplash.com/photo-1525610553991-2bede1a236e2?auto=format&fit=crop&w=600&q=80" alt="Craft and culture" />
+              <div>
+                <strong>From coffee gift sets to future craft drops</strong>
+                <span>The store can grow into T-shirts, artisanal craft, event merchandise and more.</span>
+              </div>
+            </article>
+            <article class="editorial-item">
+              <img src="https://images.unsplash.com/photo-1519671482749-fd09be7ccebf?auto=format&fit=crop&w=600&q=80" alt="Event atmosphere" />
+              <div>
+                <strong>Events, festivals and city pride still have a home here</strong>
+                <span>They just sit beneath a cleaner, revenue-led homepage hierarchy.</span>
+              </div>
+            </article>
+          </div>
+        </div>
+        <div>
+          <div class="section-head" style="margin-bottom:14px; align-items:center;">
+            <h2 class="section-title" style="font-size:36px;">Curated picks</h2>
+            <a class="link-arrow" href="#">See all →</a>
+          </div>
+          <div class="tab-row">
+            <button class="tab active" data-tab="all">All</button>
+            <button class="tab" data-tab="food">Food</button>
+            <button class="tab" data-tab="drink">Drink</button>
+            <button class="tab" data-tab="stay">Stays</button>
+          </div>
+          <div class="listing-grid" id="listingGrid">
+            <article class="listing-card" data-category="drink" data-title="Pilgrim Coffee Company Matsheumhlope">
+              <img src="https://images.unsplash.com/photo-1445116572660-236099ec97a0?auto=format&fit=crop&w=1200&q=80" alt="Cafe interior" />
+              <div class="card-body">
+                <div class="pill-row"><span class="pill">Drink</span><span class="rating">★ 4.8</span></div>
+                <h3 style="font-size:22px;">Pilgrim Coffee Company</h3>
+                <p class="muted">A calm, modern coffee stop that naturally pairs with your own product story and future collaborations.</p>
+                <div class="listing-actions">
+                  <button class="mini-btn">View spot</button>
+                  <button class="mini-btn">Save</button>
+                </div>
+              </div>
+            </article>
+            <article class="listing-card" data-category="food" data-title="The Smokehouse Bulawayo steak grill">
+              <img src="https://images.unsplash.com/photo-1552566626-52f8b828add9?auto=format&fit=crop&w=1200&q=80" alt="Restaurant grill" />
+              <div class="card-body">
+                <div class="pill-row"><span class="pill">Food</span><span class="rating">★ 4.7</span></div>
+                <h3 style="font-size:22px;">The Smokehouse</h3>
+                <p class="muted">A stronger editorial card style: less clutter, better imagery, faster decision-making for users.</p>
+                <div class="listing-actions">
+                  <button class="mini-btn">View spot</button>
+                  <button class="mini-btn">Reserve later</button>
+                </div>
+              </div>
+            </article>
+            <article class="listing-card" data-category="stay" data-title="Fortunes Gate Lodge stay hotel">
+              <img src="https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=1200&q=80" alt="Lodge room" />
+              <div class="card-body">
+                <div class="pill-row"><span class="pill">Stay</span><span class="rating">★ 4.6</span></div>
+                <h3 style="font-size:22px;">Fortunes Gate Lodge</h3>
+                <p class="muted">Stays belong on the homepage, but presented as curated recommendations instead of overwhelming listings.</p>
+                <div class="listing-actions">
+                  <button class="mini-btn">View stay</button>
+                  <button class="mini-btn">Save</button>
+                </div>
+              </div>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="stays">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">Stay layer</p>
+            <h2 class="section-title">Stay discoverable without stealing the page</h2>
+          </div>
+          <p>This section keeps accommodation relevant to travellers and future event audiences, while the main commercial energy still goes to the store.</p>
+        </div>
+        <div class="listing-grid">
+          <article class="stay-card">
+            <img src="https://images.unsplash.com/photo-1522798514-97ceb8c4f1c8?auto=format&fit=crop&w=1200&q=80" alt="Boutique stay" />
+            <div class="card-body">
+              <div class="pill-row"><span class="pill">Boutique stay</span><span class="rating">★ 4.9</span></div>
+              <h3 style="font-size:22px;">Modern city stay</h3>
+              <p class="muted">Soft luxury, easy access, and strong potential for future stay + experience bundles.</p>
+            </div>
+          </article>
+          <article class="stay-card">
+            <img src="https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=1200&q=80" alt="Guest room" />
+            <div class="card-body">
+              <div class="pill-row"><span class="pill">Guesthouse</span><span class="rating">★ 4.7</span></div>
+              <h3 style="font-size:22px;">Quiet guesthouse pick</h3>
+              <p class="muted">Works for tourists, weekenders and future event visitors who discover you through products first.</p>
+            </div>
+          </article>
+          <article class="stay-card">
+            <img src="https://images.unsplash.com/photo-1496417263034-38ec4f0b665a?auto=format&fit=crop&w=1200&q=80" alt="Hotel lounge" />
+            <div class="card-body">
+              <div class="pill-row"><span class="pill">Hotel</span><span class="rating">★ 4.5</span></div>
+              <h3 style="font-size:22px;">Business-trip favourite</h3>
+              <p class="muted">A clean block for stays keeps the platform useful without forcing everything into the hero area.</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="stories">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">Stories & media</p>
+            <h2 class="section-title">The media layer still matters</h2>
+          </div>
+          <p>Stories should make the homepage feel alive, proud and local. They should deepen identity and taste—not bury the buying actions.</p>
+        </div>
+        <div class="stories-grid">
+          <article class="story-card">
+            <img src="https://images.unsplash.com/photo-1470337458703-46ad1756a187?auto=format&fit=crop&w=1200&q=80" alt="Brunch table" />
+            <div class="card-body">
+              <div class="story-meta">Curated list</div>
+              <h3 style="font-size:22px;">Where to take someone you want to impress</h3>
+              <p class="muted">A city guide story format that feels like recommendation, not raw data.</p>
+            </div>
+          </article>
+          <article class="story-card">
+            <img src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=1200&q=80" alt="Coffee scene" />
+            <div class="card-body">
+              <div class="story-meta">Brand story</div>
+              <h3 style="font-size:22px;">Why kwaBulawayo coffee fits the city brand</h3>
+              <p class="muted">Your product line should feel like a natural extension of the platform, not a random side hustle.</p>
+            </div>
+          </article>
+          <article class="story-card">
+            <img src="https://images.unsplash.com/photo-1519671482749-fd09be7ccebf?auto=format&fit=crop&w=1200&q=80" alt="Event crowd" />
+            <div class="card-body">
+              <div class="story-meta">Future direction</div>
+              <h3 style="font-size:22px;">Events, culture drops and local collaborations</h3>
+              <p class="muted">This gives people a reason to follow kwaBulawayo beyond single purchases.</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-cta">
+        <div>
+          <p class="eyebrow">Recommendation</p>
+          <h2>Keep the guide. Reorder the page. Let the products lead.</h2>
+          <p>The point of this homepage is not to shrink the brand. It is to give the brand a commercial spine: shop hero first, curated city guide second, stories and culture third, all under the same purple premium kwaBulawayo world.</p>
+        </div>
+        <div class="footer-box">
+          <strong>What this concept solves</strong>
+          <div class="muted">• Store is immediately visible above the fold</div>
+          <div class="muted">• Search, food and stays remain on the homepage</div>
+          <div class="muted">• Stories and culture still signal what you stand for</div>
+          <div class="muted">• Future products, events and craft drops can plug in naturally</div>
+          <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:16px;">
+            <a class="btn btn-primary" href="#top">Back to top</a>
+            <button class="btn btn-ghost" id="demoCartBtn">Open cart demo</button>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <div style="display:flex; align-items:center; gap:12px;">
+          <img src="logo-white.png" alt="kwaBulawayo logo" style="height:28px; width:auto">
+          <span>Homepage concept for review</span>
+        </div>
+        <div>Built as a single-file prototype with embedded CSS and JS.</div>
+      </div>
+    </div>
+  </footer>
+
+  <a class="btn btn-whatsapp wa-float" href="https://wa.me/263000000000?text=Hi%20kwaBulawayo%2C%20I%20want%20to%20place%20an%20order." target="_blank" rel="noopener">WhatsApp us</a>
+
+  <script>
+    const cartDrawer = document.getElementById('cartDrawer');
+    const cartToggle = document.getElementById('cartToggle');
+    const closeCart = document.getElementById('closeCart');
+    const clearCart = document.getElementById('clearCart');
+    const cartItemsEl = document.getElementById('cartItems');
+    const cartTotalEl = document.getElementById('cartTotal');
+    const whatsAppCheckout = document.getElementById('whatsAppCheckout');
+    const demoCartBtn = document.getElementById('demoCartBtn');
+    const menuBtn = document.getElementById('menuBtn');
+    const mobileNav = document.getElementById('mobileNav');
+    const searchInput = document.getElementById('searchInput');
+    const categoryFilter = document.getElementById('categoryFilter');
+    const cards = [...document.querySelectorAll('#listingGrid [data-category]')];
+    const tabs = [...document.querySelectorAll('.tab')];
+
+    let cart = [];
+
+    function openCart(){ cartDrawer.classList.add('open'); }
+    function closeCartDrawer(){ cartDrawer.classList.remove('open'); }
+    cartToggle?.addEventListener('click', openCart);
+    closeCart?.addEventListener('click', closeCartDrawer);
+    demoCartBtn?.addEventListener('click', openCart);
+
+    menuBtn?.addEventListener('click', () => mobileNav.classList.toggle('open'));
+
+    document.querySelectorAll('.add-to-cart').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const name = btn.dataset.name;
+        const price = Number(btn.dataset.price || 0);
+        const existing = cart.find(item => item.name === name);
+        if(existing){ existing.qty += 1; }
+        else { cart.push({ name, price, qty: 1 }); }
+        renderCart();
+        openCart();
+      });
+    });
+
+    clearCart?.addEventListener('click', () => {
+      cart = [];
+      renderCart();
+    });
+
+    function renderCart(){
+      if(!cart.length){
+        cartItemsEl.innerHTML = '<div class="cart-empty">Your cart is empty. Add a mug or coffee pack to test the flow.</div>';
+        cartTotalEl.textContent = '$0';
+        whatsAppCheckout.href = 'https://wa.me/263000000000?text=Hi%20kwaBulawayo%2C%20I%20want%20to%20order.';
+        return;
+      }
+      cartItemsEl.innerHTML = cart.map(item => `
+        <div class="cart-item">
+          <strong>${item.name}</strong>
+          <div class="small muted">Qty: ${item.qty}</div>
+          <div class="small muted">Subtotal: $${item.qty * item.price}</div>
+        </div>
+      `).join('');
+      const total = cart.reduce((sum, item) => sum + item.price * item.qty, 0);
+      cartTotalEl.textContent = `$${total}`;
+      const lines = [
+        'Hi kwaBulawayo 👋',
+        '',
+        'I want to order:',
+        ...cart.map(item => `- ${item.name} x${item.qty} = $${item.qty * item.price}`),
+        '',
+        `Total: $${total}`,
+        '',
+        'Name:',
+        'Location:'
+      ];
+      whatsAppCheckout.href = `https://wa.me/263000000000?text=${encodeURIComponent(lines.join('\n'))}`;
+    }
+
+    function applyFilters(){
+      const query = (searchInput.value || '').trim().toLowerCase();
+      const category = categoryFilter.value;
+      cards.forEach(card => {
+        const text = card.dataset.title.toLowerCase();
+        const inQuery = !query || text.includes(query);
+        const inCategory = category === 'all' || card.dataset.category === category;
+        card.classList.toggle('hidden', !(inQuery && inCategory));
+      });
+    }
+    searchInput?.addEventListener('input', applyFilters);
+    categoryFilter?.addEventListener('change', applyFilters);
+
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        tabs.forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+        const selected = tab.dataset.tab;
+        cards.forEach(card => {
+          const match = selected === 'all' || card.dataset.category === selected;
+          card.classList.toggle('hidden', !match);
+        });
+      });
+    });
+  </script>
+</body>
+</html>
