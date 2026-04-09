@@ -1,0 +1,1005 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>kwaBulawayo — Bulawayo, curated beautifully</title>
+  <link rel="icon" type="image/png" href="icon-purple.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --white: #ffffff;
+      --off: #faf9f7;
+      --cream: #f5f2ed;
+      --text: #1a1614;
+      --text-mid: #4a4340;
+      --text-soft: #8a827a;
+      --accent: #7c3fa8;
+      --accent-light: #a85bc5;
+      --accent-pale: #f0e8f7;
+      --gold: #c9a84c;
+      --green: #25D366;
+      --green-dark: #128C5E;
+      --line: rgba(26,22,20,.1);
+      --line-soft: rgba(26,22,20,.06);
+      --max: 1200px;
+      --r: 20px;
+      --shadow-sm: 0 2px 12px rgba(0,0,0,.06);
+      --shadow: 0 8px 40px rgba(0,0,0,.10);
+      --shadow-lg: 0 24px 80px rgba(0,0,0,.14);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--white);
+      color: var(--text);
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    img { max-width: 100%; display: block; }
+    a { text-decoration: none; color: inherit; }
+    button { font: inherit; cursor: pointer; border: none; background: none; }
+
+    .container { width: min(var(--max), calc(100% - 40px)); margin: 0 auto; }
+
+    /* ─── HEADER ─── */
+    .site-header {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(255,255,255,.92);
+      backdrop-filter: blur(20px) saturate(1.6);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .nav {
+      display: flex; align-items: center;
+      justify-content: space-between; padding: 18px 0; gap: 24px;
+    }
+
+    .brand { display: flex; align-items: center; gap: 10px; }
+    .brand-icon {
+      width: 36px; height: 36px; border-radius: 10px;
+      background: var(--accent); display: grid; place-items: center;
+      flex-shrink: 0;
+    }
+    .brand-icon img { width: 20px; height: 20px; object-fit: contain; filter: brightness(0) invert(1); }
+    .brand-wordmark img { height: 26px; width: auto; }
+
+    .nav-links { display: flex; gap: 28px; font-size: 14px; font-weight: 500; }
+    .nav-links a { color: var(--text-soft); transition: color .2s; letter-spacing: .01em; }
+    .nav-links a:hover, .nav-links a.active { color: var(--text); }
+
+    .nav-actions { display: flex; align-items: center; gap: 10px; }
+
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center;
+      gap: 8px; border-radius: 999px; font-weight: 600;
+      font-size: 14px; letter-spacing: .01em;
+      transition: all .22s ease; white-space: nowrap;
+    }
+    .btn:hover { transform: translateY(-1px); }
+
+    .btn-primary {
+      padding: 11px 22px;
+      background: var(--accent);
+      color: #fff;
+      box-shadow: 0 4px 20px rgba(124,63,168,.3);
+    }
+    .btn-primary:hover { background: var(--accent-light); box-shadow: 0 8px 28px rgba(124,63,168,.4); }
+
+    .btn-outline {
+      padding: 11px 22px;
+      background: transparent;
+      color: var(--text);
+      border: 1.5px solid var(--line);
+    }
+    .btn-outline:hover { border-color: var(--accent); color: var(--accent); }
+
+    .btn-ghost {
+      padding: 11px 22px;
+      background: var(--cream);
+      color: var(--text);
+    }
+    .btn-ghost:hover { background: var(--accent-pale); color: var(--accent); }
+
+    .btn-whatsapp {
+      padding: 11px 22px;
+      background: var(--green);
+      color: #fff;
+      box-shadow: 0 4px 16px rgba(37,211,102,.28);
+    }
+    .btn-whatsapp:hover { background: var(--green-dark); }
+
+    .btn-icon {
+      width: 42px; height: 42px; border-radius: 12px;
+      background: var(--cream); color: var(--text);
+      font-size: 17px; transition: all .2s;
+    }
+    .btn-icon:hover { background: var(--accent-pale); color: var(--accent); }
+
+    .menu-btn { display: none; }
+
+    /* ─── HERO ─── */
+    .hero { padding: 40px 0 28px; }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      align-items: stretch;
+    }
+
+    .hero-left {
+      background: var(--off);
+      border: 1px solid var(--line);
+      border-radius: 28px;
+      padding: 48px;
+      display: flex; flex-direction: column;
+      justify-content: space-between;
+      min-height: 620px;
+    }
+
+    .eyebrow {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 7px 14px; border-radius: 999px;
+      background: var(--accent-pale);
+      color: var(--accent);
+      font-size: 10.5px; font-weight: 700;
+      letter-spacing: .14em; text-transform: uppercase;
+      width: fit-content;
+    }
+
+    .eyebrow-dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--accent); flex-shrink: 0;
+      animation: pulse 2s ease infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: .5; transform: scale(.8); }
+    }
+
+    h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(52px, 7vw, 92px);
+      line-height: .88;
+      letter-spacing: -.04em;
+      font-weight: 600;
+      margin: 20px 0 18px;
+      color: var(--text);
+      max-width: 10ch;
+    }
+
+    h1 em {
+      font-style: italic;
+      color: var(--accent);
+    }
+
+    .lead {
+      font-size: 17px; color: var(--text-soft);
+      max-width: 36ch; line-height: 1.6; font-weight: 400;
+    }
+
+    .hero-actions { display: flex; gap: 12px; flex-wrap: wrap; margin: 28px 0 0; }
+
+    .hero-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-top: 32px;
+    }
+
+    .stat {
+      padding: 16px 18px;
+      background: var(--white);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+    }
+    .stat strong { display: block; font-size: 15px; font-weight: 600; margin-bottom: 3px; }
+    .stat span { display: block; color: var(--text-soft); font-size: 12px; line-height: 1.4; }
+
+    .hero-right {
+      border-radius: 28px;
+      overflow: hidden;
+      position: relative;
+      min-height: 620px;
+    }
+
+    .hero-right img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+    }
+
+    .hero-overlay {
+      position: absolute; inset: auto 0 0 0;
+      padding: 28px 32px;
+      background: linear-gradient(0deg, rgba(26,22,20,.88) 0%, transparent 100%);
+    }
+
+    .hero-overlay strong {
+      display: block;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 28px; font-weight: 500;
+      color: #fff; letter-spacing: -.02em;
+      line-height: 1.1;
+    }
+
+    .hero-overlay span {
+      display: block;
+      color: rgba(255,255,255,.7);
+      font-size: 14px; margin-top: 6px;
+    }
+
+    /* ─── DIVIDER ─── */
+    .ticker-bar {
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+      background: var(--cream);
+      padding: 14px 0; overflow: hidden;
+      white-space: nowrap;
+      margin: 8px 0;
+    }
+
+    .ticker-inner {
+      display: inline-flex; gap: 0;
+      animation: ticker 24s linear infinite;
+    }
+
+    .ticker-inner span {
+      font-size: 12px; font-weight: 600;
+      letter-spacing: .12em; text-transform: uppercase;
+      color: var(--text-soft);
+      padding: 0 28px;
+    }
+
+    .ticker-inner span.sep {
+      color: var(--accent); padding: 0;
+    }
+
+    @keyframes ticker {
+      from { transform: translateX(0); }
+      to { transform: translateX(-50%); }
+    }
+
+    /* ─── SECTIONS ─── */
+    section { padding: 24px 0; }
+
+    .section-head {
+      display: flex; justify-content: space-between;
+      align-items: flex-end; gap: 20px; margin-bottom: 20px;
+    }
+
+    .section-kicker {
+      font-size: 11px; font-weight: 700; letter-spacing: .14em;
+      text-transform: uppercase; color: var(--accent);
+      margin-bottom: 10px;
+    }
+
+    .section-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(32px, 4vw, 52px);
+      font-weight: 600; line-height: .94;
+      letter-spacing: -.04em; color: var(--text);
+    }
+
+    .section-sub {
+      color: var(--text-soft); max-width: 38ch;
+      font-size: 15px; margin-top: 10px; line-height: 1.6;
+    }
+
+    /* ─── PRODUCT GRID ─── */
+    .product-grid {
+      display: grid;
+      grid-template-columns: 1.2fr .9fr .9fr;
+      gap: 16px;
+    }
+
+    .product-card {
+      background: var(--off);
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      overflow: hidden;
+      display: flex; flex-direction: column;
+      transition: box-shadow .3s, transform .3s;
+    }
+    .product-card:hover {
+      box-shadow: var(--shadow);
+      transform: translateY(-3px);
+    }
+    .product-card.featured { grid-row: span 2; }
+
+    .card-media {
+      position: relative;
+      aspect-ratio: 1;
+      background: var(--cream);
+      overflow: hidden;
+    }
+    .product-card.featured .card-media {
+      aspect-ratio: auto;
+      flex: 1;
+    }
+
+    .card-media img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      transition: transform .5s ease;
+    }
+    .product-card:hover .card-media img { transform: scale(1.04); }
+
+    .badge {
+      position: absolute; top: 14px; left: 14px;
+      padding: 6px 12px; border-radius: 999px;
+      background: var(--white);
+      border: 1px solid var(--line);
+      font-size: 10px; font-weight: 700;
+      letter-spacing: .1em; text-transform: uppercase;
+      color: var(--text);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .card-body { padding: 20px 22px 24px; }
+
+    .card-top {
+      display: flex; justify-content: space-between;
+      align-items: flex-start; gap: 12px; margin-bottom: 8px;
+    }
+
+    h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 26px; font-weight: 600;
+      letter-spacing: -.03em; line-height: 1.05;
+    }
+
+    .price {
+      font-size: 22px; font-weight: 700;
+      color: var(--accent); white-space: nowrap;
+    }
+
+    .copy { font-size: 14px; color: var(--text-soft); line-height: 1.55; }
+
+    .card-actions {
+      display: flex; gap: 10px; flex-wrap: wrap; margin-top: 18px;
+    }
+
+    .mini-btn {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 10px 16px; border-radius: 12px;
+      background: var(--cream);
+      border: 1px solid var(--line);
+      color: var(--text); font-size: 13px; font-weight: 600;
+      transition: all .2s;
+    }
+    .mini-btn:hover { background: var(--accent-pale); color: var(--accent); border-color: var(--accent); }
+
+    /* ─── DISCOVER ─── */
+    .discover-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+
+    .discover-card {
+      background: var(--off);
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      overflow: hidden;
+      display: flex; flex-direction: column;
+      transition: box-shadow .3s, transform .3s;
+    }
+    .discover-card:hover { box-shadow: var(--shadow); transform: translateY(-3px); }
+
+    .discover-card .card-img {
+      position: relative;
+      aspect-ratio: 1.15; overflow: hidden;
+    }
+    .discover-card .card-img img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      transition: transform .5s;
+    }
+    .discover-card:hover .card-img img { transform: scale(1.05); }
+
+    .pill-row {
+      display: flex; justify-content: space-between;
+      align-items: center; gap: 10px; margin-bottom: 10px;
+    }
+
+    .pill {
+      padding: 5px 11px; border-radius: 999px;
+      background: var(--accent-pale);
+      font-size: 10px; font-weight: 700;
+      letter-spacing: .12em; text-transform: uppercase;
+      color: var(--accent);
+    }
+
+    .rating {
+      font-weight: 700; font-size: 13px; color: var(--gold);
+    }
+
+    /* ─── CULTURE SPLIT ─── */
+    .split {
+      display: grid;
+      grid-template-columns: .9fr 1.1fr;
+      gap: 20px;
+      align-items: start;
+    }
+
+    .story-panel {
+      background: var(--cream);
+      border: 1px solid var(--line);
+      border-radius: 28px;
+      padding: 44px;
+      display: flex; flex-direction: column;
+      justify-content: space-between;
+      min-height: 440px;
+      position: sticky; top: 100px;
+    }
+
+    .story-panel p { color: var(--text-mid); max-width: 36ch; font-size: 17px; line-height: 1.65; margin-top: 16px; }
+
+    .story-list { display: grid; gap: 14px; }
+
+    .story-item {
+      display: grid;
+      grid-template-columns: 90px 1fr;
+      gap: 16px;
+      align-items: center;
+      padding: 16px;
+      background: var(--off);
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      transition: box-shadow .25s, transform .25s;
+    }
+    .story-item:hover { box-shadow: var(--shadow-sm); transform: translateX(3px); }
+
+    .story-item img {
+      width: 100%; height: 90px;
+      object-fit: cover; border-radius: 12px;
+    }
+
+    .story-item strong {
+      display: block; font-size: 16px; font-weight: 600;
+      margin-bottom: 5px; letter-spacing: -.01em;
+    }
+
+    .story-item span { display: block; color: var(--text-soft); font-size: 13px; line-height: 1.45; }
+
+    /* ─── CTA ─── */
+    .cta-band {
+      background: var(--text);
+      border-radius: 28px;
+      padding: 56px 56px;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 40px;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cta-band::before {
+      content: '';
+      position: absolute;
+      top: -40%; right: -10%;
+      width: 500px; height: 500px;
+      background: radial-gradient(circle, rgba(124,63,168,.25) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .cta-band h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(36px, 5vw, 64px);
+      font-weight: 500; line-height: .9;
+      letter-spacing: -.04em; color: #fff;
+      max-width: 16ch;
+    }
+
+    .cta-band h2 em { font-style: italic; color: var(--accent-light); }
+
+    .cta-band p { color: rgba(255,255,255,.55); max-width: 34ch; font-size: 16px; margin-top: 14px; line-height: 1.6; }
+
+    .cta-actions { display: flex; flex-direction: column; gap: 12px; flex-shrink: 0; }
+
+    /* ─── FOOTER ─── */
+    .site-footer {
+      padding: 24px 0 48px;
+      border-top: 1px solid var(--line);
+      margin-top: 16px;
+    }
+
+    .footer-inner {
+      display: flex; justify-content: space-between;
+      align-items: center; gap: 20px;
+    }
+
+    .footer-brand { display: flex; align-items: center; gap: 10px; }
+    .footer-brand img { height: 22px; width: auto; }
+
+    .footer-links { display: flex; gap: 24px; }
+    .footer-links a { font-size: 13px; color: var(--text-soft); transition: color .2s; }
+    .footer-links a:hover { color: var(--accent); }
+
+    .footer-copy { font-size: 12px; color: var(--text-soft); }
+
+    /* ─── CART DRAWER ─── */
+    .cart-drawer {
+      position: fixed; top: 16px; right: 16px; z-index: 200;
+      width: min(400px, calc(100vw - 24px));
+      max-height: calc(100vh - 32px);
+      display: none; flex-direction: column;
+      background: var(--white);
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      box-shadow: var(--shadow-lg);
+    }
+    .cart-drawer.open { display: flex; }
+
+    .cart-head {
+      padding: 20px 22px;
+      border-bottom: 1px solid var(--line);
+      display: flex; align-items: center; gap: 12px;
+    }
+    .cart-head strong { font-size: 20px; font-weight: 700; letter-spacing: -.03em; }
+
+    .cart-body { padding: 16px 20px; overflow: auto; display: grid; gap: 10px; }
+
+    .cart-item {
+      padding: 14px 16px;
+      background: var(--off);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+    }
+    .cart-item strong { display: block; margin-bottom: 4px; font-weight: 600; }
+
+    .cart-empty { padding: 40px 16px; text-align: center; color: var(--text-soft); }
+
+    .cart-foot {
+      padding: 18px 22px;
+      border-top: 1px solid var(--line);
+      margin-top: auto;
+    }
+
+    .cart-total-row {
+      display: flex; justify-content: space-between; gap: 12px;
+      margin-bottom: 14px;
+    }
+    .cart-total-row span { color: var(--text-soft); }
+    .cart-total-row strong { font-size: 18px; font-weight: 700; }
+
+    /* ─── WA FLOAT ─── */
+    .wa-float {
+      position: fixed; right: 20px; bottom: 20px; z-index: 50;
+      box-shadow: 0 8px 30px rgba(37,211,102,.4);
+    }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 1080px) {
+      .hero-grid, .split, .cta-band { grid-template-columns: 1fr; }
+      .hero-left { min-height: auto; padding: 36px; }
+      .hero-right { min-height: 400px; }
+      .product-grid { grid-template-columns: 1fr; }
+      .product-card.featured { grid-row: auto; }
+      .cta-band { padding: 40px 36px; }
+      .cta-actions { flex-direction: row; }
+      .story-panel { position: static; min-height: auto; }
+    }
+
+    @media (max-width: 760px) {
+      .container { width: calc(100% - 24px); }
+      .nav-links { display: none; }
+      .nav-links.open {
+        display: flex; flex-direction: column;
+        position: absolute; top: 70px; left: 10px; right: 10px;
+        background: var(--white);
+        border: 1px solid var(--line);
+        border-radius: 18px;
+        padding: 16px;
+        gap: 4px;
+        box-shadow: var(--shadow);
+      }
+      .nav-links.open a { padding: 10px 12px; border-radius: 10px; }
+      .nav-links.open a:hover { background: var(--cream); }
+      .menu-btn { display: inline-flex; }
+      .nav-actions .btn-primary { display: none; }
+      .hero-stats { grid-template-columns: 1fr; }
+      .hero-left { padding: 28px 24px; }
+      h1 { max-width: unset; }
+      .discover-grid { grid-template-columns: 1fr; }
+      .footer-links { display: none; }
+      .footer-inner { flex-direction: column; align-items: flex-start; gap: 12px; }
+      .cta-band { grid-template-columns: 1fr; padding: 32px 28px; gap: 24px; }
+      .cta-actions { flex-direction: column; width: 100%; }
+      .cta-actions .btn { justify-content: center; }
+    }
+
+    /* ─── FADE IN ANIMATION ─── */
+    .fade-in { opacity: 0; transform: translateY(16px); transition: opacity .6s ease, transform .6s ease; }
+    .fade-in.visible { opacity: 1; transform: none; }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="site-header">
+    <div class="container nav">
+      <a class="brand" href="#top" aria-label="kwaBulawayo home">
+        <span class="brand-icon"><img src="icon-purple.png" alt="kwaBulawayo icon"></span>
+        <span class="brand-wordmark"><img src="logo-purple.png" alt="kwaBulawayo"></span>
+      </a>
+
+      <nav class="nav-links" id="mobileNav">
+        <a class="active" href="#shop">Store</a>
+        <a href="#discover">Guide</a>
+        <a href="#culture">Culture</a>
+      </nav>
+
+      <div class="nav-actions">
+        <button class="btn-icon" id="cartToggle" aria-label="Open cart">🛒</button>
+        <a class="btn btn-primary" href="#shop">Shop now</a>
+        <button class="btn-icon menu-btn" id="menuBtn" aria-label="Menu">☰</button>
+      </div>
+    </div>
+  </header>
+
+  <main id="top">
+
+    <!-- HERO -->
+    <section class="hero">
+      <div class="container hero-grid">
+
+        <div class="hero-left fade-in">
+          <div>
+            <span class="eyebrow">
+              <span class="eyebrow-dot"></span>
+              Bulawayo, curated beautifully
+            </span>
+            <h1>City guide.<br><em>Culture</em><br>brand.<br>Store.</h1>
+            <p class="lead">Shop the kwaBulawayo experience, then discover where to eat, sip, stay and slow down in the city we love.</p>
+            <div class="hero-actions">
+              <a class="btn btn-primary" href="#shop">Shop the store</a>
+              <a class="btn btn-whatsapp" href="#cart">Order on WhatsApp</a>
+            </div>
+          </div>
+          <div class="hero-stats">
+            <div class="stat"><strong>Coffee & mugs</strong><span>Giftable, local, easy to order.</span></div>
+            <div class="stat"><strong>Curated guide</strong><span>Food, drinks and stays only.</span></div>
+            <div class="stat"><strong>Culture first</strong><span>City pride, stories, identity.</span></div>
+          </div>
+        </div>
+
+        <div class="hero-right fade-in" style="transition-delay:.15s">
+          <img src="stall-brand.png" alt="kwaBulawayo brand stall and packaging">
+          <div class="hero-overlay">
+            <strong>Made to feel like Bulawayo.</strong>
+            <span>Minimal. Premium. Unmistakably local.</span>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- TICKER -->
+    <div class="ticker-bar">
+      <div class="ticker-inner">
+        <span>Shop</span><span class="sep">·</span>
+        <span>City Guide</span><span class="sep">·</span>
+        <span>Culture Brand</span><span class="sep">·</span>
+        <span>Bulawayo</span><span class="sep">·</span>
+        <span>Coffee</span><span class="sep">·</span>
+        <span>Local Goods</span><span class="sep">·</span>
+        <span>Curated Stays</span><span class="sep">·</span>
+        <span>Dining</span><span class="sep">·</span>
+        <span>Premium Gifts</span><span class="sep">·</span>
+        <!-- duplicate for seamless loop -->
+        <span>Shop</span><span class="sep">·</span>
+        <span>City Guide</span><span class="sep">·</span>
+        <span>Culture Brand</span><span class="sep">·</span>
+        <span>Bulawayo</span><span class="sep">·</span>
+        <span>Coffee</span><span class="sep">·</span>
+        <span>Local Goods</span><span class="sep">·</span>
+        <span>Curated Stays</span><span class="sep">·</span>
+        <span>Dining</span><span class="sep">·</span>
+        <span>Premium Gifts</span><span class="sep">·</span>
+      </div>
+    </div>
+
+    <!-- SHOP -->
+    <section id="shop">
+      <div class="container">
+        <div class="section-head fade-in">
+          <div>
+            <p class="section-kicker">Our store</p>
+            <h2 class="section-title">Shop the essentials</h2>
+            <p class="section-sub">Fewer products. Better presentation. Stronger intention.</p>
+          </div>
+        </div>
+
+        <div class="product-grid">
+
+          <article class="product-card featured fade-in">
+            <div class="card-media">
+              <img src="coffee-page.png" alt="kwaBulawayo gift pack">
+              <span class="badge">Hero product</span>
+            </div>
+            <div class="card-body">
+              <div class="card-top">
+                <h3>Gift Pack</h3>
+                <span class="price">$24</span>
+              </div>
+              <p class="copy">Coffee drip bags, signature mug and wrapped presentation for an easy, premium gift.</p>
+              <div class="card-actions">
+                <button class="btn btn-primary add-to-cart" data-name="Gift Pack" data-price="24">Add to cart</button>
+                <a class="mini-btn" href="#culture">View story</a>
+              </div>
+            </div>
+          </article>
+
+          <article class="product-card fade-in" style="transition-delay:.1s">
+            <div class="card-media">
+              <img src="coffee-page.png" alt="kwaBulawayo drip bags">
+              <span class="badge">Coffee</span>
+            </div>
+            <div class="card-body">
+              <div class="card-top">
+                <h3>Drip Bags</h3>
+                <span class="price">$10</span>
+              </div>
+              <p class="copy">Single-serve coffee for home, office and travel.</p>
+              <div class="card-actions">
+                <button class="mini-btn add-to-cart" data-name="Coffee Drip Bags" data-price="10">Add to cart</button>
+              </div>
+            </div>
+          </article>
+
+          <article class="product-card fade-in" style="transition-delay:.2s">
+            <div class="card-media">
+              <img src="stall-brand.png" alt="kwaBulawayo mug">
+              <span class="badge">Merch</span>
+            </div>
+            <div class="card-body">
+              <div class="card-top">
+                <h3>Signature Mug</h3>
+                <span class="price">$12</span>
+              </div>
+              <p class="copy">A clean everyday piece designed to gift well and photograph beautifully.</p>
+              <div class="card-actions">
+                <button class="mini-btn add-to-cart" data-name="Signature Mug" data-price="12">Add to cart</button>
+              </div>
+            </div>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- DISCOVER -->
+    <section id="discover">
+      <div class="container">
+        <div class="section-head fade-in">
+          <div>
+            <p class="section-kicker">City guide</p>
+            <h2 class="section-title">The city, edited down</h2>
+            <p class="section-sub">Not everything. Just the places worth saving.</p>
+          </div>
+        </div>
+
+        <div class="discover-grid">
+
+          <article class="discover-card fade-in">
+            <div class="card-img">
+              <img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=1200&q=80" alt="restaurant interior">
+            </div>
+            <div class="card-body">
+              <div class="pill-row"><span class="pill">Food</span><span class="rating">★ 4.8</span></div>
+              <h3>Where to eat now</h3>
+              <p class="copy">Curated restaurant picks for lunches, dates and slow evenings.</p>
+            </div>
+          </article>
+
+          <article class="discover-card fade-in" style="transition-delay:.1s">
+            <div class="card-img">
+              <img src="https://images.unsplash.com/photo-1509042239860-f550ce710b93?auto=format&fit=crop&w=1200&q=80" alt="coffee and cafe scene">
+            </div>
+            <div class="card-body">
+              <div class="pill-row"><span class="pill">Drinks</span><span class="rating">★ 4.9</span></div>
+              <h3>Cafés & drinks</h3>
+              <p class="copy">Coffee spots, bars and easy places to stay a little longer.</p>
+            </div>
+          </article>
+
+          <article class="discover-card fade-in" style="transition-delay:.2s">
+            <div class="card-img">
+              <img src="https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=1200&q=80" alt="boutique hotel room">
+            </div>
+            <div class="card-body">
+              <div class="pill-row"><span class="pill">Stays</span><span class="rating">★ 4.7</span></div>
+              <h3>Stay well</h3>
+              <p class="copy">A tighter shortlist of hotels, lodges and guesthouses worth considering.</p>
+            </div>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- CULTURE -->
+    <section id="culture">
+      <div class="container split">
+
+        <div class="story-panel fade-in">
+          <div>
+            <p class="section-kicker">Our philosophy</p>
+            <h2 class="section-title">More than a store</h2>
+            <p>kwaBulawayo sells objects, but it also sells feeling: city pride, taste and a point of view. Commerce up front, culture underneath, everything easier to understand.</p>
+          </div>
+          <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:32px;">
+            <a class="btn btn-outline" href="#discover">Explore the guide</a>
+            <a class="btn btn-primary" href="#shop">See the store</a>
+          </div>
+        </div>
+
+        <div class="story-list fade-in" style="transition-delay:.1s">
+          <article class="story-item">
+            <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=600&q=80" alt="dining scene">
+            <div>
+              <strong>Curated over crowded</strong>
+              <span>Editorial selections feel sharper than endless listings.</span>
+            </div>
+          </article>
+          <article class="story-item">
+            <img src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=600&q=80" alt="coffee closeup">
+            <div>
+              <strong>Products with context</strong>
+              <span>The store feels stronger when it sits inside a living city brand.</span>
+            </div>
+          </article>
+          <article class="story-item">
+            <img src="https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=600&q=80" alt="stay experience">
+            <div>
+              <strong>Built for growth</strong>
+              <span>Events, festivals and new products can layer in without breaking the brand.</span>
+            </div>
+          </article>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section>
+      <div class="container fade-in">
+        <div class="cta-band">
+          <div>
+            <h2>Start with the store.<br><em>Stay for the city.</em></h2>
+            <p>That is the model: commerce up front, culture underneath, everything easier to understand.</p>
+          </div>
+          <div class="cta-actions">
+            <a class="btn btn-whatsapp" id="ctaWhatsapp" href="#">Order on WhatsApp</a>
+            <a class="btn btn-outline" href="#discover" style="border-color:rgba(255,255,255,.2);color:#fff;">Explore the guide</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <div class="footer-brand">
+        <img src="logo-purple.png" alt="kwaBulawayo">
+      </div>
+      <nav class="footer-links">
+        <a href="#shop">Store</a>
+        <a href="#discover">City Guide</a>
+        <a href="#culture">Culture</a>
+      </nav>
+      <span class="footer-copy">kwaBulawayo — city guide, culture brand, store.</span>
+    </div>
+  </footer>
+
+  <!-- CART DRAWER -->
+  <aside class="cart-drawer" id="cartDrawer" aria-live="polite">
+    <div class="cart-head">
+      <strong>Your cart</strong>
+      <button class="btn-icon" id="closeCart" aria-label="Close cart" style="margin-left:auto;font-size:14px;">✕</button>
+    </div>
+    <div class="cart-body" id="cartItems">
+      <div class="cart-empty">Your cart is empty.</div>
+    </div>
+    <div class="cart-foot">
+      <div class="cart-total-row">
+        <span>Total</span>
+        <strong id="cartTotal">$0</strong>
+      </div>
+      <a class="btn btn-whatsapp" id="waCheckout" href="#" style="width:100%;justify-content:center;">Send order on WhatsApp</a>
+    </div>
+  </aside>
+
+  <!-- WA FLOAT -->
+  <a class="btn btn-whatsapp wa-float" href="#cart">💬 WhatsApp</a>
+
+  <script>
+    // ─── NAV ───
+    const menuBtn = document.getElementById('menuBtn');
+    const mobileNav = document.getElementById('mobileNav');
+    menuBtn?.addEventListener('click', () => mobileNav.classList.toggle('open'));
+    document.addEventListener('click', (e) => {
+      if (!mobileNav.contains(e.target) && !menuBtn.contains(e.target)) {
+        mobileNav.classList.remove('open');
+      }
+    });
+
+    // ─── CART ───
+    const cartToggle = document.getElementById('cartToggle');
+    const closeCart = document.getElementById('closeCart');
+    const cartDrawer = document.getElementById('cartDrawer');
+    const cartItemsEl = document.getElementById('cartItems');
+    const cartTotal = document.getElementById('cartTotal');
+    const waCheckout = document.getElementById('waCheckout');
+    const whatsappNumber = '263000000000';
+    let cart = [];
+
+    cartToggle?.addEventListener('click', () => cartDrawer.classList.add('open'));
+    closeCart?.addEventListener('click', () => cartDrawer.classList.remove('open'));
+
+    document.querySelectorAll('a[href="#cart"]').forEach(a => {
+      a.addEventListener('click', (e) => { e.preventDefault(); cartDrawer.classList.add('open'); });
+    });
+
+    document.querySelectorAll('.add-to-cart').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const name = btn.dataset.name;
+        const price = Number(btn.dataset.price || 0);
+        const existing = cart.find(i => i.name === name);
+        if (existing) existing.qty++;
+        else cart.push({ name, price, qty: 1 });
+        renderCart();
+        cartDrawer.classList.add('open');
+      });
+    });
+
+    function renderCart() {
+      if (!cart.length) {
+        cartItemsEl.innerHTML = '<div class="cart-empty">Your cart is empty.</div>';
+        cartTotal.textContent = '$0';
+        waCheckout.href = '#';
+        return;
+      }
+      let total = 0;
+      cartItemsEl.innerHTML = cart.map((item, i) => {
+        total += item.price * item.qty;
+        return `<div class="cart-item">
+          <strong>${item.name}</strong>
+          <div style="display:flex;justify-content:space-between;font-size:13px;color:var(--text-soft);margin-top:4px;">
+            <span>$${item.price} × ${item.qty}</span>
+            <button onclick="removeItem(${i})" style="background:none;border:0;color:var(--accent);cursor:pointer;font-size:12px;font-weight:600;">Remove</button>
+          </div>
+        </div>`;
+      }).join('');
+      cartTotal.textContent = `$${total}`;
+      const message = [
+        'Hi kwaBulawayo, I want to order:', '',
+        ...cart.map(item => `- ${item.name} x${item.qty} ($${item.price * item.qty})`),
+        '', `Total: $${total}`, 'Name:', 'Location:'
+      ].join('\n');
+      waCheckout.href = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
+    }
+
+    window.removeItem = (i) => { cart.splice(i, 1); renderCart(); };
+
+    // ─── FADE IN ON SCROLL ───
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+  </script>
+
+</body>
+</html>
